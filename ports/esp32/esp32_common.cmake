@@ -87,6 +87,12 @@ list(APPEND MICROPY_SOURCE_PORT
     machine_rtc.c
     machine_sdcard.c
     modespnow.c
+    modespai.c
+    mod_face_detection.c
+	mod_code_recognition.c
+	mod_face_recognition.c
+	mod_color_detection.c
+    modtftlcd.c
 )
 list(TRANSFORM MICROPY_SOURCE_PORT PREPEND ${MICROPY_PORT_DIR}/)
 list(APPEND MICROPY_SOURCE_PORT ${CMAKE_BINARY_DIR}/pins.c)
@@ -137,9 +143,17 @@ list(APPEND IDF_COMPONENTS
     esp-dl
     esp-code-scanner
     fb_gfx
-    modules
 )
-
+#ESP-AI
+if(MICROPY_PORT_EN_ESPAI STREQUAL "y")
+	set(ESPAI_INC
+		${MICROPY_PORT_DIR}/ai/
+		)
+	file (GLOB_RECURSE ESPAI_SRCS 
+			"${MICROPY_PORT_DIR}/ai/*.cpp"
+			) 
+	# list(REMOVE_ITEM NESEMU_SRCS "${NESEMU_FILE_DIR}/main/main.c")
+endif()
 # Register the main IDF component.
 idf_component_register(
     SRCS
@@ -150,12 +164,14 @@ idf_component_register(
         ${MICROPY_SOURCE_DRIVERS}
         ${MICROPY_SOURCE_PORT}
         ${MICROPY_SOURCE_BOARD}
+        ${ESPAI_SRCS}
     INCLUDE_DIRS
         ${MICROPY_INC_CORE}
         ${MICROPY_INC_USERMOD}
         ${MICROPY_PORT_DIR}
         ${MICROPY_BOARD_DIR}
         ${CMAKE_BINARY_DIR}
+        ${ESPAI_INC}
     LDFRAGMENTS
         linker.lf
     REQUIRES

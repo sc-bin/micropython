@@ -7,6 +7,7 @@
 #define MICROPY_HW_I2C0_SCL                 (9)
 #define MICROPY_HW_I2C0_SDA                 (8)
 
+#define MICROPY_ENABLE_TFTLCD				(1)
 #define MICROPY_HW_ESPAI				(1)
 #define MICROPY_ENABLE_FACE_DETECTION	(1)
 // #define MICROPY_ENABLE_CAT_DETECTION	(1)
