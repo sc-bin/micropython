@@ -10,4 +10,3 @@ set(SDKCONFIG_DEFAULTS
     boards/WPI_PICO_W/sdkconfig.board
 )
 
-set(MICROPY_PORT_EN_ESPAI y) #AI

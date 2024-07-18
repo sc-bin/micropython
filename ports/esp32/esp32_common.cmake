@@ -134,6 +134,10 @@ list(APPEND IDF_COMPONENTS
     spi_flash
     ulp
     vfs
+    esp-dl
+    esp-code-scanner
+    fb_gfx
+    modules
 )
 
 # Register the main IDF component.
