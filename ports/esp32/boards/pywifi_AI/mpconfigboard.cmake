@@ -10,4 +10,5 @@ set(SDKCONFIG_DEFAULTS
     boards/pywifi_AI/sdkconfig.board
 )
 
+set(MICROPY_PORT_PICLIB y) #picture
 set(MICROPY_PORT_EN_ESPAI y) #AI

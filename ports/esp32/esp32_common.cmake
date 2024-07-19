@@ -158,6 +158,20 @@ if(MICROPY_PORT_EN_ESPAI STREQUAL "y")
 			) 
 	# list(REMOVE_ITEM NESEMU_SRCS "${NESEMU_FILE_DIR}/main/main.c")
 endif()
+
+if(MICROPY_PORT_PICLIB STREQUAL "y")
+	#add_compile_definitions("MICROPY_PORT_PICLIB")
+	#message("\n compile MICROPY_PY_PICLIB \n")
+	
+	set(MICROPY_INC_PICTURE
+    ${MICROPY_PORT_DIR}/picture
+	)
+	set(MICROPY_SOURCE_PICTURE
+    ${MICROPY_PORT_DIR}/picture/bmp.c
+	${MICROPY_PORT_DIR}/picture/piclib.c
+	${MICROPY_PORT_DIR}/picture/tjpgd.c
+	)
+endif()
 # Register the main IDF component.
 idf_component_register(
     SRCS
@@ -168,6 +182,7 @@ idf_component_register(
         ${MICROPY_SOURCE_DRIVERS}
         ${MICROPY_SOURCE_PORT}
         ${MICROPY_SOURCE_BOARD}
+        ${MICROPY_SOURCE_PICTURE}
         ${ESPAI_SRCS}
     INCLUDE_DIRS
         ${MICROPY_INC_CORE}
@@ -175,6 +190,7 @@ idf_component_register(
         ${MICROPY_PORT_DIR}
         ${MICROPY_BOARD_DIR}
         ${CMAKE_BINARY_DIR}
+        ${MICROPY_INC_PICTURE}
         ${ESPAI_INC}
     LDFRAGMENTS
         linker.lf
