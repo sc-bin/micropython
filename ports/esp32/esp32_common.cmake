@@ -93,6 +93,10 @@ list(APPEND MICROPY_SOURCE_PORT
 	mod_face_recognition.c
 	mod_color_detection.c
     modtftlcd.c
+    ILI9341.c
+    ST7735.c
+    ST7789.c
+    lcd_spibus.c
 )
 list(TRANSFORM MICROPY_SOURCE_PORT PREPEND ${MICROPY_PORT_DIR}/)
 list(APPEND MICROPY_SOURCE_PORT ${CMAKE_BINARY_DIR}/pins.c)

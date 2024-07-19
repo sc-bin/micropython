@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "any": "c"
+        "any": "c",
+        "modtftlcd.h": "c",
+        "task.h": "c"
     }
 }
