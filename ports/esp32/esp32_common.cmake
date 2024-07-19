@@ -86,17 +86,23 @@ list(APPEND MICROPY_SOURCE_PORT
     mpthreadport.c
     machine_rtc.c
     machine_sdcard.c
+
     modespnow.c
     modespai.c
     mod_face_detection.c
 	mod_code_recognition.c
 	mod_face_recognition.c
 	mod_color_detection.c
+
     modtftlcd.c
     ILI9341.c
     ST7735.c
     ST7789.c
     lcd_spibus.c
+
+    modsensor.c
+    modov2640.c
+
 )
 list(TRANSFORM MICROPY_SOURCE_PORT PREPEND ${MICROPY_PORT_DIR}/)
 list(APPEND MICROPY_SOURCE_PORT ${CMAKE_BINARY_DIR}/pins.c)
@@ -159,6 +165,54 @@ if(MICROPY_PORT_EN_ESPAI STREQUAL "y")
 	# list(REMOVE_ITEM NESEMU_SRCS "${NESEMU_FILE_DIR}/main/main.c")
 endif()
 
+# cam
+if(MICROPY_PORT_CAMLIB STREQUAL "y")
+	set(CAM_SRCS_DIR
+	${MICROPY_PORT_DIR}/esp32-camera
+	)
+	set(CAM_SRCS
+		${CAM_SRCS_DIR}/driver/esp_camera.c
+		${CAM_SRCS_DIR}/driver/cam_hal.c
+		${CAM_SRCS_DIR}/driver/sccb.c
+		${CAM_SRCS_DIR}/driver/sensor.c
+		${CAM_SRCS_DIR}/sensors/ov2640.c
+		${CAM_SRCS_DIR}/sensors/ov3660.c
+		${CAM_SRCS_DIR}/sensors/ov5640.c
+		${CAM_SRCS_DIR}/sensors/ov7725.c
+		${CAM_SRCS_DIR}/sensors/ov7670.c
+		${CAM_SRCS_DIR}/sensors/nt99141.c
+		${CAM_SRCS_DIR}/sensors/gc0308.c
+		${CAM_SRCS_DIR}/sensors/gc2145.c
+		${CAM_SRCS_DIR}/sensors/gc032a.c
+		${CAM_SRCS_DIR}/conversions/yuv.c
+		${CAM_SRCS_DIR}/conversions/to_jpg.cpp
+		${CAM_SRCS_DIR}/conversions/to_bmp.c
+		${CAM_SRCS_DIR}/conversions/jpge.cpp
+		${CAM_SRCS_DIR}/conversions/esp_jpg_decode.c
+		)
+
+	set(CAM_INC
+		${CAM_SRCS_DIR}/conversions/include
+		${CAM_SRCS_DIR}/conversions/private_include
+		${CAM_SRCS_DIR}/driver/include
+		${CAM_SRCS_DIR}/driver/private_include
+		${CAM_SRCS_DIR}/sensors/private_include
+		${CAM_SRCS_DIR}/target/private_include
+		)
+		
+	if(IDF_TARGET STREQUAL "esp32")
+		list(APPEND CAM_SRCS ${CAM_SRCS_DIR}/target/esp32/ll_cam.c)
+		list(APPEND CAM_SRCS ${CAM_SRCS_DIR}/target/xclk.c)
+	elseif(IDF_TARGET STREQUAL "esp32s2")
+		list(APPEND CAM_SRCS ${CAM_SRCS_DIR}/target/esp32s2/ll_cam.c)
+		list(APPEND CAM_SRCS ${CAM_SRCS_DIR}/target/xclk.c)
+		list(APPEND CAM_SRCS ${CAM_SRCS_DIR}/target/esp32s2/tjpgd.c)
+		list(APPEND CAM_INC ${CAM_SRCS_DIR}/target/esp32s2/private_include)
+	elseif(IDF_TARGET STREQUAL "esp32s3")
+		list(APPEND CAM_SRCS ${CAM_SRCS_DIR}/target/esp32s3/ll_cam.c)
+	endif()
+
+endif()
 if(MICROPY_PORT_PICLIB STREQUAL "y")
 	#add_compile_definitions("MICROPY_PORT_PICLIB")
 	#message("\n compile MICROPY_PY_PICLIB \n")
@@ -184,6 +238,7 @@ idf_component_register(
         ${MICROPY_SOURCE_BOARD}
         ${MICROPY_SOURCE_PICTURE}
         ${ESPAI_SRCS}
+        ${CAM_SRCS}
     INCLUDE_DIRS
         ${MICROPY_INC_CORE}
         ${MICROPY_INC_USERMOD}
@@ -192,6 +247,7 @@ idf_component_register(
         ${CMAKE_BINARY_DIR}
         ${MICROPY_INC_PICTURE}
         ${ESPAI_INC}
+        ${CAM_INC}
     LDFRAGMENTS
         linker.lf
     REQUIRES
@@ -223,6 +279,7 @@ target_compile_options(${MICROPY_TARGET} PUBLIC
     -Wno-clobbered
     -Wno-deprecated-declarations
     -Wno-missing-field-initializers
+    -Wno-format
 )
 
 # Additional include directories needed for private NimBLE headers.
