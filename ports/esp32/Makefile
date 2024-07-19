@@ -10,7 +10,7 @@ BOARD ?= $(notdir $(BOARD_DIR:/=))
 else
 # If not given on the command line, then default to ESP32_GENERIC.
 # BOARD ?= ESP32_GENERIC
-BOARD ?= WPI_PICO_W
+BOARD ?= pywifi_AI
 BOARD_DIR ?= boards/$(BOARD)
 endif
 
