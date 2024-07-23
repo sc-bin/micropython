@@ -36,6 +36,7 @@
 
 //cam
 #define MICROPY_ENABLE_SENSOR			(1)
+#define CONFIG_OV2640_SUPPORT			(1)
 #define MICROPY_HW_OV2640				(1)
 #define CAM_PIN_XCLK					(10)
 #define CAM_PIN_SIOD					(21)
@@ -51,7 +52,4 @@
 #define CAM_PIN_VSYNC					(13)
 #define CAM_PIN_HREF					(12)
 #define CAM_PIN_PCLK					(18)
-#ifndef CONFIG_OV2640_SUPPORT
-#define CONFIG_OV2640_SUPPORT			(1)
-#endif
 #define CONFIG_SCCB_HARDWARE_I2C_PORT1	(1)

@@ -50,6 +50,8 @@ const mp_obj_module_t sensor_module = {
     .globals = (mp_obj_dict_t *)&sensor_module_globals,
 };
 
+MP_REGISTER_MODULE(MP_QSTR_sensor, sensor_module);
+
 /*******************************************************************************/
 
 #endif 
