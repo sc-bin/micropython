@@ -173,7 +173,7 @@ static mp_obj_t sensor_ov2640_snapshot(size_t n_args, const mp_obj_t *pos_args, 
 			is_snapshot = true;
 			mp_hal_delay_ms(10);
 
-			uint32_t jpg_buf_len = 200*1024;
+			uint32_t jpg_buf_len = 20*1024;
 			size_t outsize = 0;
 			uint8_t *outbuffer = (uint8_t *)m_malloc(jpg_buf_len);
 			if(outbuffer == NULL){
